@@ -1,15 +1,52 @@
 <!DOCTYPE html>
 <html>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <head>
   <meta charset="utf-8">
   <title>Astro Weight Calculator</title>
 </head>
 
 <body>
-  <!-- Write your markup here  -->
-
   <script src="main.js" charset="utf-8"></script>
+  <label for="user-weight">Please enter your weight:</label>
+  <input id="user-weight" type="text" placeholder="Weight (lbs)" />
+  <label for="planets">Choose a planet:</label>
+  <select id="planets"></select>
+  
+  <div class="options-section">
+    <label for="pluto-checkbox">Include Pluto?</label>
+    <input id="pluto-checkbox" type="checkbox" checked="true"></input>
+  </div>
+
+  <button id="calculate-button" onclick="handleClickEvent()">Calculate</button>
+  <p id="output"></p>
+  <script>
+    const select = document.getElementById("planets");  
+    planets.reverse().forEach(planet => {
+    const option = document.createElement("option");
+    option.value = planet.name;
+    option.textContent = planet.name;
+    document.addEventListener('change', function() {
+      if (!document.getElementById("pluto-checkbox").checked && planet.name === "Pluto") {
+        select.removeChild(option);
+      } else if (document.getElementById("pluto-checkbox").checked && planet.name === "Pluto") {
+        select.appendChild(option);
+      }
+    });
+    select.appendChild(option);
+  });
+  function calculateWeight(weight, planetName) {
+    const planet = planets.find(p => p.name === planetName);
+    return (weight * planet.gravity).toFixed(2);
+  }
+  function handleClickEvent(e){
+    const userWeight = document.getElementById("user-weight").value;
+    const planetName = document.getElementById("planets").value;
+    const result = calculateWeight(userWeight, planetName);
+    document.getElementById("output").textContent = `If you were on ${planetName}, you would weigh ${result}lbs!`;
+  }
+  </script>
 </body>
 
 </html>
